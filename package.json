@@ -1,0 +1,25 @@
+{
+  "name": "wagon-engine",
+  "version": "1.0.0",
+  "description": "A very cool node HTML templating engine.",
+  "main": "template.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/str1z/wagon-engine.git"
+  },
+  "keywords": [
+    "html",
+    "template",
+    "engine",
+    "wagon"
+  ],
+  "author": "str1z",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/str1z/wagon-engine/issues"
+  },
+  "homepage": "https://github.com/str1z/wagon-engine#readme"
+}

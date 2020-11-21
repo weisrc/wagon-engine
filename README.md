@@ -138,7 +138,3 @@ Hello world
 
 There is syntax highlighter in the VScode Marketplace.
 https://marketplace.visualstudio.com/items?itemName=str1z.html-wagon-syntax-highlighting
-
-### Help wanted!
-
-This project is part of yet another Web Framework named Gare (train station). To help, please join my discord server. https://discord.gg/d3yEpMfagj

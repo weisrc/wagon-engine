@@ -131,7 +131,7 @@ Hello world
 | `this.name`                           | Current template name (full path)           |
 | `this.raw`                            | Raw template                                |
 | `this.code`                           | In genration code                           |
-| `this.define(string name, any value)` | Define a variable                           |
+| `this.define(string name, any value)` | Define a constant                           |
 | `this.include(string relativePath)`   | Inserts compiled code from another template |
 
 ### Syntax highlighting

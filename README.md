@@ -87,14 +87,14 @@ Hello, my name is Bob and I am 20
 
 ### Very simple syntax...
 
-| syntax                | description                  | example                          |
-| --------------------- | ---------------------------- | -------------------------------- |
-| `{code}`              | Evaluated and displayed      | {"You will see me"}              |
-| `{% code}`            | Evaluated, but not displayed | {% let m = "You will not"}       |
-| `{# block statement}` | Open a block statement       | {# if (true)}                    |
-| `{: block statement}` | Chains a block statement     | {: else if (true)}               |
-| `{/...}`              | Closes a block statement     | {/ if}                           |
-| `{@ code}`            | Evaluated at compile time    | {@ this.include("partial.html")} |
+| syntax                | description                   | example                          |
+| --------------------- | ----------------------------- | -------------------------------- |
+| `{code}`              | Evaluated and displayed       | {"You will see me"}              |
+| `{% code}`            | Evaluated, but not displayed  | {% let m = "You will not"}       |
+| `{# block statement}` | Open a block statement        | {# if (true)}                    |
+| `{: block statement}` | Chains a block statement      | {: else if (true)}               |
+| `{/...}`              | Closes a block statement      | {/ if}                           |
+| `{@ code}`            | Evaluated during compile time | {@ this.include("partial.html")} |
 
 ### Render time variables
 

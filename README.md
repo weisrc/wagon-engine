@@ -98,18 +98,19 @@ Hello, my name is Bob and I am 20
 
 ### Render time variables
 
-| name       | description                    |
-| ---------- | ------------------------------ |
-| `__main__` | Root template name (full path) |
-| `__html__` | In generation HTML             |
-| `__code__` | Generated code                 |
+| name    | description                    |
+| ------- | ------------------------------ |
+| `$main` | Root template name (full path) |
+| `$html` | In generation HTML             |
+| `$code` | Generated code                 |
+| `data`  | Props passed from the renderer |
 
-`__html__` can be modified by the template.
+`$html` can be modified by the template.
 
 So...
 
 ```
-{% __html__ += "Hello world"}
+{% $html += "Hello world"}
 ```
 
 will be the same as...
@@ -132,7 +133,7 @@ Hello world
 | `this.name`                           | Current template name (full path)           |
 | `this.raw`                            | Raw template                                |
 | `this.code`                           | In genration code                           |
-| `this.vars`                           | Render time variable names. eg. `__html__`  |
+| `this.vars`                           | Render time variable names. eg. `$html`     |
 | `this.define(string name, any value)` | Define a constant                           |
 | `this.include(string relativePath)`   | Inserts compiled code from another template |
 | `this.add(string code)`               | Inserts code during compile time            |

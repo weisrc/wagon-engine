@@ -59,6 +59,23 @@ let strings = ['"', "'", "`"].map(
     })
 );
 
+let _block = new Rule({
+  start: "___",
+  end: "___",
+  nested: [char],
+  map: ({ nested }) => ({ block: nested.join("").replace(/_/g, ".") }),
+});
+
+let attributes = ["'", '"'].map(
+  (t) =>
+    new Rule({
+      start: t,
+      end: t,
+      nested: [_block, escapeChar, char],
+      map: ({ nested }) => [t, nested, t],
+    })
+);
+
 let htmlComment = new Rule({
   start: "<!--",
   end: "-->",
@@ -92,17 +109,24 @@ let block = new Rule({
   start: "\\{",
   end: "\\}",
   nested: [...comments, nestedBlock, ...strings, char],
-  map: ({ nested }) => [nested.join("")],
+  map: ({ nested }) => ({ block: nested.join("") }),
 });
 
 let script = new Rule({
   start: "<script",
   end: "</script>",
-  nested: [...comments, ...strings, char],
-  map: ({ nested }) => "<script" + nested.join("") + "</script>",
+  nested: [_block, ...comments, ...strings, char],
+  map: ({ nested }) => ["<script", nested, "</script>"],
+});
+
+let tagOpen = new Rule({
+  start: "<\\w+",
+  end: ">",
+  nested: [...attributes, char],
+  map: ({ nested, start }) => [start[0], nested, ">"],
 });
 
 module.exports = {
-  rules: [htmlComment, script, block, char],
+  rules: [htmlComment, script, tagOpen, block, char],
   Rule,
 };

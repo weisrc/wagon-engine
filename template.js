@@ -9,16 +9,18 @@ class Template {
     this.raw = raw;
     this.name = name;
     this.vars = {
-      html: "__html__",
-      main: "__main__",
-      code: "__code__",
+      html: "$html",
+      main: "$main",
+      code: "$code",
+      data: "data",
     };
     this.main = main;
     this.code = "";
     this.parser.map = ({ nested }) => {
       let res = [];
       let acc = "";
-      for (let e of nested)
+      let flat = nested.flat(64);
+      for (let e of flat)
         if (typeof e === "string") acc += e;
         else {
           if (acc) res.push(acc);
@@ -28,12 +30,12 @@ class Template {
       if (acc) res.push(acc);
       for (let e of res) {
         if (typeof e === "string") this.code += `${this.vars.html} += "${e.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/"/g, '\\"')}"\n`;
-        else if (e[0][0] == "@") new Function(e[0].slice(1)).apply(this);
-        else if (e[0][0] == "%") this.code += e[0].slice(1) + "\n";
-        else if (e[0][0] == "#") this.code += e[0].slice(1) + "\n{\n";
-        else if (e[0][0] == ":") this.code += "\n}\n" + e[0].slice(1) + "\n{\n";
-        else if (e[0][0] == "/") this.code += "\n}\n";
-        else this.code += `${this.vars.html} += ${e[0]}\n`;
+        else if (e.block[0] == "@") new Function(e.block.slice(1)).apply(this);
+        else if (e.block[0] == "%") this.code += e.block.slice(1) + "\n";
+        else if (e.block[0] == "#") this.code += e.block.slice(1) + "\n{\n";
+        else if (e.block[0] == ":") this.code += "\n}\n" + e.block.slice(1) + "\n{\n";
+        else if (e.block[0] == "/") this.code += "\n}\n";
+        else this.code += `${this.vars.html} += ${e.block}\n`;
       }
       return this.code;
     };
@@ -53,8 +55,7 @@ class Template {
   generate() {
     this.parser.parse(this.raw);
   }
-  compile(options = {}) {
-    const { mode = "default", varname = "data" } = options;
+  compile(asyncMode) {
     this.generate();
     let code = "";
     code += `let ${this.vars.html} = ""\n`;
@@ -62,13 +63,16 @@ class Template {
     code += `const ${this.vars.code} = ${JSON.stringify(this.code)}\n`;
     code += this.code + "\n";
     code += `return ${this.vars.html}`;
-    let args = [varname, code];
-    if (mode === "async") return new AsyncFunction(...args);
+    let args = [this.vars.data, code];
+    if (asyncMode) return new AsyncFunction(...args);
     else return new Function(...args);
   }
-  static fromFile(path, main) {
+  static fromFile(path) {
     let full = nodepath.normalize(path);
-    return new this(fs.readFileSync(full, { encoding: "utf8" }), full, main || full);
+    return new this(fs.readFileSync(full, { encoding: "utf8" }), full, full);
+  }
+  static compileFile(path, asyncMode) {
+    return this.fromFile(path).compile(asyncMode);
   }
 }
 

@@ -1,0 +1,6 @@
+- [Getting started](/)
+- [Syntax](/syntax)
+- [Template API](/template-api)
+- [Javascript API](/javascript-api)
+- [Components](/components)
+- [Helpers](/helpers)

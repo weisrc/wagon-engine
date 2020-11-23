@@ -1,5 +1,5 @@
 const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
-const nodepath = require("path");
+const nPath = require("path");
 const fs = require("fs");
 const { rules, Rule } = require("./rules");
 
@@ -8,12 +8,6 @@ class Template {
     this.parser = new Rule({ start: "", end: "$", nested: rules });
     this.raw = raw;
     this.name = name;
-    this.vars = {
-      html: "$html",
-      main: "$main",
-      code: "$code",
-      data: "data",
-    };
     this.main = main;
     this.code = "";
     this.parser.map = ({ nested }) => {
@@ -29,27 +23,27 @@ class Template {
         }
       if (acc) res.push(acc);
       for (let e of res) {
-        if (typeof e === "string") this.code += `${this.vars.html} += "${e.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/"/g, '\\"')}"\n`;
+        if (typeof e === "string") this.code += `self.html += "${e.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/"/g, '\\"')}"\n`;
         else if (e.block[0] == "@") new Function(e.block.slice(1)).apply(this);
         else if (e.block[0] == "%") this.code += e.block.slice(1) + "\n";
         else if (e.block[0] == "#") this.code += e.block.slice(1) + "\n{\n";
         else if (e.block[0] == ":") this.code += "\n}\n" + e.block.slice(1) + "\n{\n";
         else if (e.block[0] == "/") this.code += "\n}\n";
-        else this.code += `${this.vars.html} += ${e.block}\n`;
+        else this.code += `self.html += ${e.block}\n`;
       }
       return this.code;
     };
   }
   include(path) {
-    let full = path.startsWith("./") ? nodepath.resolve(nodepath.dirname(this.name), path) : nodepath.normalize(path);
-    let template = Template.fromFile(full, full, this.main);
+    let norm = path.startsWith("./") ? nPath.resolve(nPath.dirname(this.name), path) : nPath.normalize(path);
+    let template = Template.fromFile(norm, norm, this.main);
     template.generate();
     this.code += template.code;
   }
   define(varname, value) {
     this.code += `const ${varname} = ${JSON.stringify(value)}\n`;
   }
-  add(code) {
+  write(code) {
     this.code += code;
   }
   generate() {
@@ -58,18 +52,21 @@ class Template {
   compile(asyncMode) {
     this.generate();
     let code = "";
-    code += `let ${this.vars.html} = ""\n`;
-    code += `const ${this.vars.main} = ${JSON.stringify(this.main)}\n`;
-    code += `const ${this.vars.code} = ${JSON.stringify(this.code)}\n`;
+    code += `const self = ${JSON.stringify({
+      html: "",
+      main: this.main,
+      code: this.code,
+      raw: this.raw,
+    })}\n`;
     code += this.code + "\n";
-    code += `return ${this.vars.html}`;
-    let args = [this.vars.data, code];
-    if (asyncMode) return new AsyncFunction(...args);
-    else return new Function(...args);
+    code += `return self.html`;
+    let args = ["data", code];
+    if (asyncMode) return new AsyncFunction(...args).bind(this);
+    else return new Function(...args).bind(this);
   }
   static fromFile(path) {
-    let full = nodepath.normalize(path);
-    return new this(fs.readFileSync(full, { encoding: "utf8" }), full, full);
+    let norm = nPath.normalize(path);
+    return new this(fs.readFileSync(norm, { encoding: "utf8" }), norm, norm);
   }
   static compileFile(path, asyncMode) {
     return this.fromFile(path).compile(asyncMode);

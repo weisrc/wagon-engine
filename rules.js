@@ -119,7 +119,14 @@ let script = new Rule({
   map: ({ nested }) => ["<script", nested, "</script>"],
 });
 
-let tagOpen = new Rule({
+let style = new Rule({
+  start: "<style",
+  end: "</style>",
+  nested: [_block, comments[0], ...strings, char],
+  map: ({ nested }) => ["<style", nested, "</style>"],
+});
+
+let tag = new Rule({
   start: "<\\w+",
   end: ">",
   nested: [...attributes, char],
@@ -127,6 +134,6 @@ let tagOpen = new Rule({
 });
 
 module.exports = {
-  rules: [htmlComment, script, tagOpen, block, char],
+  rules: [htmlComment, script, style, tag, block, char],
   Rule,
 };

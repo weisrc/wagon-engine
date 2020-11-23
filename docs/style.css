@@ -1,0 +1,12 @@
+:root {
+  /* Theme */
+  --theme-hue: 150;
+  --theme-saturation: 50%;
+  --theme-lightness: 20%;
+  --theme-color: hsl(var(--theme-hue), var(--theme-saturation), var(--theme-lightness));
+
+  /* Cover */
+  --cover-heading-color: var(--theme-color);
+  --cover-background-color: var(--base-background-color);
+  --cover-border-width: 25px;
+}

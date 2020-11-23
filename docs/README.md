@@ -15,7 +15,7 @@ Wagon Engine is a HTML templating engine only available on Node.js that allows d
 ## Installation
 
 ```sh
-npm i wagon-engine
+npm i wge
 ```
 
 ## Your first template
@@ -40,10 +40,10 @@ Now, we need to compile and render it. To do so, create an `index.js` file.
 touch index.js
 ```
 
-Install the package with `npm i wagon-engine` and write the following.
+Install the package with `npm i wge` and write the following.
 
 ```js
-const wge = require("wagon-engine");
+const wge = require("wge");
 
 const html = wge.render(__dirname + "/template.html");
 

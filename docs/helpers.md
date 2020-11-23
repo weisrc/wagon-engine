@@ -12,7 +12,7 @@ Because that the `this` is available everywhere inside the template, you can add
 index.js
 
 ```js
-const { Template } = require("wagon-engine");
+const { Template } = require("wge");
 let template = Template.fromFile(__dirname + "/template.html");
 
 // with the instance

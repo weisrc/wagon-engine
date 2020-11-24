@@ -4,3 +4,4 @@
 - [Javascript API](/javascript-api)
 - [Components](/components)
 - [Helpers](/helpers)
+- [Plugins](/plugins)

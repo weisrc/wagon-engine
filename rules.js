@@ -119,6 +119,16 @@ let script = new Rule({
   map: ({ nested }) => ["<script", nested, "</script>"],
 });
 
+let scriptBlocks = ["", "@", "%"].map(
+  (t) =>
+    new Rule({
+      start: `<script ${t}wge>`,
+      end: "</script>",
+      nested: [...comments, ...strings, char],
+      map: ({ nested }) => ({ block: t + nested.join("") }),
+    })
+);
+
 let style = new Rule({
   start: "<style",
   end: "</style>",
@@ -134,6 +144,6 @@ let tag = new Rule({
 });
 
 module.exports = {
-  rules: [htmlComment, script, style, tag, block, char],
+  rules: [htmlComment, ...scriptBlocks, script, style, tag, block, char],
   Rule,
 };

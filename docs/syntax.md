@@ -4,7 +4,7 @@ Right now, this might seem a bit intimidating, but no worries, this page will cl
 
 ?> There are only 5 types of blocks in this templating engine with there own specialities.
 
-## Render Block
+## Render block
 
 Everything in the render block will get evaluated and then rendered.
 
@@ -73,3 +73,53 @@ To get precomputed values and render it inside `script tags`, `style tags` or `a
 ```
 
 !> There are 3 underscores surrounding it and all nested underscores are replaced with dots. For variable properties, precomputation will be nescessary.
+
+## Render script
+
+This is the other verion of the eval block. With some HTML formatters, everything in your multiline code just compresses to single line. This block is here to your rescue.
+
+```html
+<script wge>
+  // your beautiful multi line code goes here!
+</script>
+```
+
+is identical to...
+
+```html
+{ /* your beautiful single line code */ }
+```
+
+!> Remember to only write one expression in the render script, otherwise, it will break.
+
+## Eval script
+
+Same story, different block...
+
+```html
+<script %wge>
+  // your beautiful multi line code goes here!
+</script>
+```
+
+is identical to...
+
+```js
+{% /* your beautiful single line code */ }
+```
+
+## Compile script
+
+Same story, different block...
+
+```html
+<script @wge>
+  // your beautiful multi line code goes here!
+</script>
+```
+
+is identical to...
+
+```js
+{@ /* your beautiful single line code */ }
+```

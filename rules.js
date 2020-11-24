@@ -145,7 +145,7 @@ let style = new Rule({
 let tag = new Rule({
   start: "<\\w+",
   end: ">",
-  nested: [...attributes, char],
+  nested: [...attributes, block, char],
   map: ({ nested, start }) => [start[0], nested, ">"],
 });
 

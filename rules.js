@@ -119,13 +119,19 @@ let script = new Rule({
   map: ({ nested }) => ["<script", nested, "</script>"],
 });
 
-let scriptBlocks = ["", "@", "%"].map(
+let scriptBlocks = [
+  ["_", ""],
+  ["@", "@"],
+  ["%", "%"],
+  ["#", "#"],
+  ["\\|", "/"],
+].map(
   (t) =>
     new Rule({
-      start: `<script ${t}wge>`,
+      start: `<script ${t[0]}>`,
       end: "</script>",
       nested: [...comments, ...strings, char],
-      map: ({ nested }) => ({ block: t + nested.join("") }),
+      map: ({ nested }) => ({ block: t[1] + nested.join("") }),
     })
 );
 

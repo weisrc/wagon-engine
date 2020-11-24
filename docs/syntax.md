@@ -74,52 +74,24 @@ To get precomputed values and render it inside `script tags`, `style tags` or `a
 
 !> There are 3 underscores surrounding it and all nested underscores are replaced with dots. For variable properties, precomputation will be nescessary.
 
-## Render script
+## Script blocks
 
-This is the other verion of the eval block. With some HTML formatters, everything in your multiline code just compresses to single line. This block is here to your rescue.
-
-```html
-<script wge>
-  // your beautiful multi line code goes here!
-</script>
-```
-
-is identical to...
+A script version of all the first 4 blocks exists mainly for multiline purposes. They can also be used without a Wagon Engine syntax highlighter or formatter because they use the HTML script tag.
 
 ```html
-{ /* your beautiful single line code */ }
-```
-
-!> Remember to only write one expression in the render script, otherwise, it will break.
-
-## Eval script
-
-Same story, different block...
-
-```html
-<script %wge>
-  // your beautiful multi line code goes here!
-</script>
-```
-
-is identical to...
-
-```js
-{% /* your beautiful single line code */ }
-```
-
-## Compile script
-
-Same story, different block...
-
-```html
-<script @wge>
-  // your beautiful multi line code goes here!
-</script>
-```
-
-is identical to...
-
-```js
-{@ /* your beautiful single line code */ }
+<!-- render  -->
+<script _></script>
+{}
+<!-- eval  -->
+<script %></script>
+{%}
+<!-- block start -->
+<script #></script>
+{#}
+<!-- block end -->
+<script |></script>
+{/}
+<!-- compile -->
+<script @></script>
+{@}
 ```

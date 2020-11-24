@@ -26,7 +26,7 @@ class Template {
         if (typeof e === "string") this.code += `self.html += "${e.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/"/g, '\\"')}"\n`;
         else if (e.block[0] == "@") new Function(e.block.slice(1)).apply(this);
         else if (e.block[0] == "%") this.code += e.block.slice(1) + "\n";
-        else if (e.block[0] == "#") this.code += e.block.slice(1) + "\n{\n";
+        else if (e.block[0] == "#") this.code += e.block.slice(1).trim().replace(/;$/, "") + "\n{\n";
         else if (e.block[0] == ":") this.code += "\n}\n" + e.block.slice(1) + "\n{\n";
         else if (e.block[0] == "/") this.code += "\n}\n";
         else this.code += `self.html += ${e.block}\n`;

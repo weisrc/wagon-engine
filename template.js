@@ -2,6 +2,7 @@ const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
 const nPath = require("path");
 const fs = require("fs");
 const { rules, Rule } = require("./rules");
+const utils = require("./utils");
 function Template(raw, name, main) {
   this.parser = new Rule({ start: "", end: "$", nested: rules });
   this.raw = raw;
@@ -32,7 +33,7 @@ function Template(raw, name, main) {
     return this.code;
   };
 }
-
+Template.prototype.tagEsc = (string) => string.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 Template.prototype.include = function (path) {
   let norm = path.startsWith("./") ? nPath.resolve(nPath.dirname(this.name), path) : nPath.normalize(path);
   let template = Template.fromFile(norm, norm, this.main);
@@ -42,7 +43,7 @@ Template.prototype.include = function (path) {
 Template.prototype.define = function (varname, value) {
   this.code += `const ${varname} = ${JSON.stringify(value)}\n`;
 };
-Template.prototype.write = function (code) {
+Template.prototype.writeCode = function (code) {
   this.code += code;
 };
 Template.prototype.generate = function () {

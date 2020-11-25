@@ -69,11 +69,13 @@ returns the compiled function with the content of the file at the path.
 
 ### Methods
 
+`string this.tagEsc(string data)` is to escape text containing HTML tags. Replaces `<` and `>` by `&lt;` and `&gt;`.
+
 `void this.include(string path)` is to include a partial template.
 
-`void this.define(string varname, any value)` is to define a constant with a value from compile time inside the render time context.
+`void this.define(string name, any value)` is to define a constant with a value from compile time inside the render time context.
 
-`void this.write(string code)` is to write raw code.
+`void this.writeCode(string code)` is to write raw code during compilation.
 
 `void this.generate()` is to the code from the raw template.
 

@@ -1,7 +1,7 @@
 {
   "_name": "wagon-engine",
   "name": "wge",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A very cool node HTML templating engine.",
   "main": "index.js",
   "scripts": {

@@ -2,7 +2,6 @@ const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
 const nPath = require("path");
 const fs = require("fs");
 const { rules, Rule } = require("./rules");
-const utils = require("./utils");
 function Template(raw, name, main) {
   this.parser = new Rule({ start: "", end: "$", nested: rules });
   this.raw = raw;

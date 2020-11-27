@@ -5,3 +5,4 @@
 - [Components](/components)
 - [Helpers](/helpers)
 - [Plugins](/plugins)
+- [CLI](/cli)
